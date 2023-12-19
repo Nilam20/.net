@@ -1,0 +1,85 @@
+﻿@model StudentApp2.Models.StudentSubjectMark
+
+@{
+    ViewData["Title"] = "AddEdit";
+}
+
+<h1>AddEdit</h1>
+
+<h4>StudentSubjectMark</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label"></label>
+                <select asp-for="SubjectId" class="form-control" >
+                    <option >--Select Subject--</option>
+                    @if (ViewBag.SubjectDetail != null)
+                    {
+                        foreach (var data in ViewBag.SubjectDetail)
+                        {
+                            <option asp-for="@data.SubjectId">@data.Name</option>
+                        }
+
+                    }
+                </select>
+                @*<input asp-for="SubjectId" class="form-control" />*@
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+
+
+            <table>
+                <thead>Student Detail</thead>
+                <tbody class="table-bordered btn-outline">
+                    <tr>
+                        <th>Name</th>
+                        <th>RollNo</th>
+                        <th>Standard</th>
+                        <th>Marks</th>
+                    </tr>
+
+                     @if (Model.listsubject != null)
+                        {
+                            for (int i = 0; i < Model.listsubject.Count; i++)
+                            {
+                                <tr>
+                                <td>@Model.listsubject[i].Name</td>
+                                <td>@Model.listsubject[i].RollNo</td>
+                                <td>@Model.listsubject[i].Standard</td>
+                                <td><input type="text" class="form-control" /></td>
+                               </tr>
+                            }
+
+                        }
+                    
+
+
+                    
+                </tbody>
+            </table>
+            @*<div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <input asp-for="StudentId" class="form-control" />
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mark" class="control-label"></label>
+                <input asp-for="Mark" class="form-control" />
+                <span asp-validation-for="Mark" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="@(Model.SubjectId>0?"Save":"Create")" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
