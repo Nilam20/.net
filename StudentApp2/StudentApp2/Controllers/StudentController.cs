@@ -41,22 +41,25 @@ namespace StudentApp2.Controllers
                     Percentage=result.Percentage
 
                 };
-            
+                ViewBag.StudentSubjectlist = context.StudentSubjects1.Where(e => e.StudentId == obj.StudentId).ToList();
+
             }
 
             return View(obj);
            
         }
         [HttpPost]
-        public IActionResult AddEdit(StudentData Stdd ,FormCollection fc)
+        public IActionResult AddEdit(StudentData Stdd,IFormCollection fc)
         {
+            ViewBag.SubjectDetails = context.SubjectDetails.ToList();
 
-            ViewBag.StudentSubjectlist = context.SubjectDetails.Where(e => e.SubjectId == Stdd.StudentId).ToList();
+            // ViewBag.StudentSubjectlist = context.SubjectDetails.Where(e => e.StudentId == Stdd.StudentId).ToList();
+            ViewBag.StudentSubjectlist = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
             if (ModelState.IsValid)
             {
                 if (Stdd.StudentId == 0)
                 {
-                  var  obj = new StudentData()
+                   var obj = new StudentData()
                     {
                         StudentId = Stdd.StudentId,
                         Name = Stdd.Name,
@@ -67,6 +70,8 @@ namespace StudentApp2.Controllers
                         Percentage = Stdd.Percentage
 
                     };
+                    context.StudentDatas.Add(obj);
+                    context.SaveChanges();
 
                     if (fc["SubjectSelection"].ToString() != "")
                     {
@@ -83,9 +88,10 @@ namespace StudentApp2.Controllers
                         }
 
                     }
-                    context.StudentDatas.Add(obj);
-                    context.SaveChanges();
+                  
+
                     TempData["Msg"] = "Data Saved";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -100,6 +106,9 @@ namespace StudentApp2.Controllers
                         Percentage = Stdd.Percentage
 
                     };
+                    context.StudentDatas.Update(obj);
+                    context.SaveChanges();
+
                     if (fc["SubjectSelection"].ToString() != "")
                     {
                         var id = obj.StudentId;
@@ -115,9 +124,9 @@ namespace StudentApp2.Controllers
                         }
 
                     }
-                    context.StudentDatas.Update(obj);
-                    context.SaveChanges();
+                  
                     TempData["Msg"] = "Data Updated";
+                    return RedirectToAction("Index");
                 }
             }
 

@@ -14,17 +14,24 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="SubjectId" class="control-label"></label>
-                <select asp-for="SubjectId" class="form-control" >
-                    <option >--Select Subject--</option>
+                <select asp-for="SubjectId" class="form-control" id="dropdown" name="dropdownlist">
+                    <option>--Select Subject--</option>
                     @if (ViewBag.SubjectDetail != null)
                     {
                         foreach (var data in ViewBag.SubjectDetail)
                         {
-                            <option asp-for="@data.SubjectId">@data.Name</option>
+                            <option asp-for="@data.SubjectId">@data.SubjectId-@data.Name</option>
                         }
 
                     }
                 </select>
+
+                @*@if (!string.IsNullOrEmpty(ViewBag.SelectedSubject))
+                    {
+                        <div class="alert alert-info">
+                            You have selected: @ViewBag.SelectedSubject
+                        </div>
+                    }*@
                 @*<input asp-for="SubjectId" class="form-control" />*@
                 <span asp-validation-for="SubjectId" class="text-danger"></span>
             </div>
@@ -33,6 +40,16 @@
             <table>
                 <thead>Student Detail</thead>
                 <tbody class="table-bordered btn-outline">
+
+                    @*@{
+
+                        List<StudentSubject> liststudentsub = new List<StudentSubject>();
+                        if (ViewBag.StudentSubject != null)
+                        {
+                            liststudentsub = (List<StudentSubject>)ViewBag.StudentSubject;
+                        }
+
+                    }*@
                     <tr>
                         <th>Name</th>
                         <th>RollNo</th>
@@ -40,37 +57,37 @@
                         <th>Marks</th>
                     </tr>
 
-                     @if (Model.listsubject != null)
+                    @if (Model.liststddata != null)
+                    {
+                        for (int i = 0; i < Model.liststddata.Count; i++)
                         {
-                            for (int i = 0; i < Model.listsubject.Count; i++)
-                            {
-                                <tr>
-                                <td>@Model.listsubject[i].Name</td>
-                                <td>@Model.listsubject[i].RollNo</td>
-                                <td>@Model.listsubject[i].Standard</td>
-                                <td><input type="text" class="form-control" /></td>
-                               </tr>
-                            }
-
+                            <tr>
+                                <td>@Model.liststddata[i].Name</td>
+                                <td>@Model.liststddata[i].RollNo</td>
+                                <td>@Model.liststddata[i].Standard</td>
+                                <td><input asp-for="Mark" type="text" class="form-control" /></td>
+                            </tr>
                         }
-                    
+
+                    }
 
 
-                    
+
+
                 </tbody>
             </table>
             @*<div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <input asp-for="StudentId" class="form-control" />
-                <span asp-validation-for="StudentId" class="text-danger"></span>
-            </div>
+                    <label asp-for="StudentId" class="control-label"></label>
+                    <input asp-for="StudentId" class="form-control" />
+                    <span asp-validation-for="StudentId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mark" class="control-label"></label>
+                    <input asp-for="Mark" class="form-control" />
+                    <span asp-validation-for="Mark" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
-                <label asp-for="Mark" class="control-label"></label>
-                <input asp-for="Mark" class="form-control" />
-                <span asp-validation-for="Mark" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <input type="submit" value="@(Model.SubjectId>0?"Save":"Create")" class="btn btn-primary" />
+                <input type="submit" value="@(Model.StudentId>0?"Save":"Create")" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -79,6 +96,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

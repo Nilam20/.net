@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\WIN0033\\source\\repos\\StudentApp2\\StudentApp2\\StudentApp2.csproj": {}
+    "C:\\Users\\WIN0033\\source\\repos\\Dotnet\\StudentApp2\\StudentApp2\\StudentApp2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\WIN0033\\source\\repos\\StudentApp2\\StudentApp2\\StudentApp2.csproj": {
+    "C:\\Users\\WIN0033\\source\\repos\\Dotnet\\StudentApp2\\StudentApp2\\StudentApp2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\WIN0033\\source\\repos\\StudentApp2\\StudentApp2\\StudentApp2.csproj",
+        "projectUniqueName": "C:\\Users\\WIN0033\\source\\repos\\Dotnet\\StudentApp2\\StudentApp2\\StudentApp2.csproj",
         "projectName": "StudentApp2",
-        "projectPath": "C:\\Users\\WIN0033\\source\\repos\\StudentApp2\\StudentApp2\\StudentApp2.csproj",
+        "projectPath": "C:\\Users\\WIN0033\\source\\repos\\Dotnet\\StudentApp2\\StudentApp2\\StudentApp2.csproj",
         "packagesPath": "C:\\Users\\WIN0033\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\WIN0033\\source\\repos\\StudentApp2\\StudentApp2\\obj\\",
+        "outputPath": "C:\\Users\\WIN0033\\source\\repos\\Dotnet\\StudentApp2\\StudentApp2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\WIN0033\\AppData\\Roaming\\NuGet\\NuGet.Config",

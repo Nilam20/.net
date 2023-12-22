@@ -13,11 +13,16 @@ namespace StudentApp2.Models
         public int Id { get; set; }
         public int SubjectId { get; set; }
         public int StudentId { get; set; }
+        [Range(35, 100, ErrorMessage = "Mark must be grater than 35 and less than 100")]
         public int Mark { get; set; }
         [NotMapped]
-        public List<StudentData> listsubject { get; set; } = new List<StudentData>();
+        public List<StudentData> liststddata { get; set; } = new List<StudentData>();
 
         [NotMapped]
         public List<StudentSubject> liststdsub { get; set; } = new List<StudentSubject>();
+        [NotMapped]
+        public List<StudentSubjectMark> listn { get; set; } = new List<StudentSubjectMark>();
+
+
     }
 }
