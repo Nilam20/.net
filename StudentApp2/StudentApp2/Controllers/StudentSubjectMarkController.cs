@@ -91,15 +91,36 @@ namespace StudentApp2.Controllers
                     int TotalMark = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId).Sum(e => e.Mark);
                     List<int> StudSubjectID = new List<int>();
                     List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == cmm[i].StudentId).ToList();
-                    for (int j = 0; j < li.Count; j++)
+                    if (li.Count != 0)
                     {
-                        StudSubjectID.Add(li[i].SubjectId);
+                        for (int j = 0; j < li.Count; j++)
+                        {
+                            StudSubjectID.Add(li[j].SubjectId);
+                        }
+
+                       
                     }
-                  
-                     int TotalMaxMark = context.SubjectDetails.Where(e => StudSubjectID.Contains(e.SubjectId)).Sum(e => e.MaxMark);
+                    int TotalMaxMark = context.SubjectDetails.Where(e => StudSubjectID.Contains(e.SubjectId)).Sum(e => e.MaxMark);
+                    double per = TotalMark * 100 / TotalMaxMark;
+                    var ff = context.StudentDatas.FirstOrDefault(x => x.StudentId == cmm[i].StudentId);
+                    {
+                         context.StudentDatas.Remove(ff);
+                        var nn = new StudentData()
+                        {
+                            StudentId = ff.StudentId,
+                            Name = ff.Name,
+                            FatherName = ff.FatherName,
+                            Standard = ff.Standard,
+                            RollNo = ff.RollNo,
+                            GRNO = ff.GRNO,
+                            Percentage = per
+
+                        };
+                        context.StudentDatas.Update(ff);
 
 
-                    //double per = TotalMark * 100 / TotalMaxMark;
+                        context.SaveChanges();
+                    //}
 
 
 
