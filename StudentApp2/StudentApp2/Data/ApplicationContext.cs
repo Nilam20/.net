@@ -14,5 +14,6 @@ namespace StudentApp2.Data
         public DbSet<StudentSubject> StudentSubjects1 { get; set; }
         public DbSet<StudentSubjectMark> StudentSubjectMarks { get; set; }
         public DbSet<SubjectDetail> SubjectDetails { get; set; }
+        public DbSet<StudentApp2.Models.CustomModel> CustomModel { get; set; }
     }
 }

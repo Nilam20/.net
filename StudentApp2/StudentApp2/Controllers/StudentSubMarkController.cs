@@ -24,26 +24,43 @@ namespace StudentApp2.Controllers
             return View(data);
         }
         [HttpGet]
-        public IActionResult AddEdit(int id ,IFormCollection fg)
+        public IActionResult AddEdit(int id)
         {
-            StudentSubjectMark ssm = new StudentSubjectMark();
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
+            StudentSubjectMark ssm = new StudentSubjectMark();
+            //{
+            //    var data = context.StudentSubjectMarks.FirstOrDefault(e => e.StudentId == id);
+            //    if (id > 0)
+            //    {
+            //        ssm = new StudentSubjectMark()
+            //        {
+            //            StudentId = data.StudentId,
+            //            SubjectId = data.SubjectId,
+            //            Mark = data.Mark
 
-            List<StudentData> list = context.StudentDatas.ToList();
-            if (list.Count > 0)
-            {
-                foreach (var d in list)
-                {
-                    StudentData sd = new StudentData()
-                    {
-                        Name = d.Name,
-                        Standard = d.Standard,
-                        RollNo = d.RollNo
-                    };
-                    ssm.liststddata.Add(sd);
+            //        };
 
-                }
-            }
+            //    }
+            //}
+
+          //  ViewBag.SubjectDetail = context.SubjectDetails.ToList();
+
+            //List<StudentData> list = context.StudentDatas.ToList();
+            //if (list.Count > 0)
+            //{
+            //    foreach (var d in list)
+            //    {
+            //        StudentData sd = new StudentData()
+            //        {
+            //            Name = d.Name,
+            //            Standard = d.Standard,
+            //            RollNo = d.RollNo,
+            //            StudentId = d.StudentId
+            //        };
+            //        ssm.liststddata.Add(sd);
+
+            //    }
+            //}
 
 
             return View(ssm);
@@ -93,11 +110,13 @@ namespace StudentApp2.Controllers
                 var data1 = ssm.liststddata[i].StudentId;
                 if (data == data1)
                 {
+                    
                     StudentSubjectMark sdn = new StudentSubjectMark()
                     {
                         SubjectId = ssm.liststdsub[i].SubjectId,
                         StudentId = ssm.liststdsub[i].StudentId,
-                        Mark = ssm.Mark
+
+                      //  Mark = ssm.liststdsub[i].StudentId
 
                     };
                     ssm.listn.Add(sdn);
@@ -108,10 +127,11 @@ namespace StudentApp2.Controllers
             context.SaveChanges();
             if (ssm.listn.Count > 0)
             {
-                var sum = 0;
+               
 
                 for (int i = 0; i < ssm.listn.Count; i++)
                 {
+                    var sum = 0;
                     var stidlistn = ssm.listn[i].StudentId;
                     var stdata = ssm.liststddata[i].StudentId;
                     if (stidlistn == stdata)

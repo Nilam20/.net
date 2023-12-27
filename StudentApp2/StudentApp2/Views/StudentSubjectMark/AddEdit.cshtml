@@ -1,0 +1,94 @@
+﻿@model List<CustomModel>
+
+@{
+    ViewData["Title"] = "AddEdit";
+    int SelectedSubjectID = 0;
+}
+
+<h1>AddEdit</h1>
+
+<h4>CustomModel</h4>
+
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddEdit">
+
+            <div class="form-group">
+                <label class="control-label"></label>
+                @if (Model != null && Model.Count != 0)
+                {
+                    SelectedSubjectID = Model[0].SubjectId;
+                }
+                <select class="form-control" AutoPostBack="true" onchange="document.location.href = '/StudentSubjectMark/AddEdit?id=' + this.options[this.selectedIndex].value ;">
+                    <option>--Select Subject--</option>
+                    @if (ViewBag.SubjectDetail != null)
+                     {
+                        foreach (var data in ViewBag.SubjectDetail)
+                        {
+                            if (data.SubjectId == SelectedSubjectID)
+                            {
+                                <option value="@data.SubjectId" AutoPostBack="true" selected>@data.SubjectId-@data.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@data.SubjectId" AutoPostBack="true">@data.SubjectId-@data.Name</option>
+                            }
+                        }
+
+                    }
+
+                </select>
+
+
+            </div>
+
+
+            <table>
+                <thead>Student Detail</thead>
+                <tbody class="table-bordered btn-outline">
+                    <tr>
+                        <th>Name</th>
+                        <th>RollNo</th>
+                        <th>Standard</th>
+                        <th>Marks</th>
+                    </tr>
+
+                    @if (Model != null)
+                    {
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr style="width:40%" >
+                                <td hidden><input asp-for="@Model[i].StudentId" hidden /></td>
+                                <td hidden><input asp-for="@Model[i].SubjectId" hidden /></td>
+                                <td><input asp-for="@Model[i].Name" /></td>
+                                <td><input asp-for="@Model[i].RollNo" /></td>
+                                <td><input asp-for="@Model[i].Standard"></td>
+                                <td style="width:100%" ><input asp-for="@Model[i].Mark" value="@Model[i].Mark" style="width:100%" type="number" /></td>
+                                @*@Model.liststddata[i].StudentId Mark*@
+
+
+                            </tr>
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+
+
+            <div class="form-group">
+                <input type="submit" value="create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
