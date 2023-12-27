@@ -18,12 +18,13 @@ namespace StudentApp2.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var data = context.StudentSubjectMarks.ToList();
+            return View(data);
         }
         [HttpGet]
         public IActionResult AddEdit(int id)
         {
-           //StudentSubjectMark ssm = new StudentSubjectMark();
+            //StudentSubjectMark ssm = new StudentSubjectMark();
             List<CustomModel> cmm = new List<CustomModel>();
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
             if (id > 0)
@@ -35,15 +36,7 @@ namespace StudentApp2.Controllers
 
                     var liststudent = context.StudentDatas.FirstOrDefault(e => e.StudentId == listss[i].StudentId);
                     {
-                        //var sd = new StudentData()
-                        //{
-                        //    StudentId = liststudent.StudentId,
-                        //    Name = liststudent.Name,
-                        //    Standard = liststudent.Standard,
-                        //    RollNo = liststudent.RollNo
 
-                        //};
-                        //ssm.listStd.Add(sd);
                         var cm = new CustomModel()
                         {
                             SubjectId = id,
@@ -51,19 +44,24 @@ namespace StudentApp2.Controllers
                             Name = liststudent.Name,
                             Standard = liststudent.Standard,
                             RollNo = liststudent.RollNo,
-                           // Mark = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark
-                           
+                            //if(listmark.Count!=0)
+                            //      {
+                            // Mark = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark
+
+                            // }
+
+
                         };
                         cmm.Add(cm);
                     }
 
                 }
 
-              
+
 
             }
 
-           
+
 
             return View(cmm);
         }
@@ -85,16 +83,58 @@ namespace StudentApp2.Controllers
                         SubjectId = cmm[i].SubjectId,
                         StudentId = cmm[i].StudentId,
                         Mark = cmm[i].Mark
+
                     };
-                    context.StudentSubjectMarks.AddRange(obj);
+
+                    context.StudentSubjectMarks.UpdateRange(obj);
                     context.SaveChanges();
+                    int TotalMark = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId).Sum(e => e.Mark);
+                    List<int> StudSubjectID = new List<int>();
+                    List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == cmm[i].StudentId).ToList();
+                    for (int j = 0; j < li.Count; j++)
+                    {
+                        StudSubjectID.Add(li[i].SubjectId);
+                    }
+                  
+                     int TotalMaxMark = context.SubjectDetails.Where(e => StudSubjectID.Contains(e.SubjectId)).Sum(e => e.MaxMark);
+
+
+                    //double per = TotalMark * 100 / TotalMaxMark;
+
+
+
                 }
 
+
             }
+
+
+
+
+
+            // return RedirectToAction("Index");
             return View();
-        }
 
-         
 
         }
+
+
+
+        //int sum = 0;
+        //sum = cmm[i].Mark * 100 / 300;
+        //double per = sum;
+        //var sdata = context.StudentDatas.FirstOrDefault(e => e.StudentId == cmm[i].StudentId);
+        //{
+        //    StudentData std = new StudentData()
+        //    {
+
+        //        Percentage = per
+        //    };
+        //    context.StudentDatas.Update(std);
+
+    }
+
+
+
 }
+

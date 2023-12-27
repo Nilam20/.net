@@ -294,3 +294,4 @@ C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\St
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\StudentApp2.genruntimeconfig.cache
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\StudentApp2.csproj.AssemblyReference.cache
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubjectMark\AddEdit.cshtml.g.cs
+C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubjectMark\Index.cshtml.g.cs
