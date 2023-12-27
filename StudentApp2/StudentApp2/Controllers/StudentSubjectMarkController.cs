@@ -104,7 +104,7 @@ namespace StudentApp2.Controllers
                     double per = TotalMark * 100 / TotalMaxMark;
                     var ff = context.StudentDatas.FirstOrDefault(x => x.StudentId == cmm[i].StudentId);
                     {
-                         context.StudentDatas.Remove(ff);
+                        context.StudentDatas.Remove(ff);
                         var nn = new StudentData()
                         {
                             StudentId = ff.StudentId,
