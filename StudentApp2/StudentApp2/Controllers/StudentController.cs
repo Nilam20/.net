@@ -109,9 +109,12 @@ namespace StudentApp2.Controllers
                     context.StudentDatas.Update(obj);
                     context.SaveChanges();
 
+                    List<StudentSubject> list = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
+                    context.StudentSubjects1.RemoveRange(list);
+
                     if (fc["SubjectSelection"].ToString() != "")
                     {
-                        var id = obj.StudentId;
+                        var id = Stdd.StudentId;
                         foreach (var item in fc["SubjectSelection"].ToString().Split(','))
                         {
                             var sdata = new StudentSubject()
@@ -119,12 +122,12 @@ namespace StudentApp2.Controllers
                                 StudentId = id,
                                 SubjectId = Convert.ToInt32(item)
                             };
-                            context.StudentSubjects1.AddRange(sdata);
+                            context.StudentSubjects1.UpdateRange(sdata);
                             context.SaveChanges();
                         }
 
                     }
-                  
+
                     TempData["Msg"] = "Data Updated";
                     return RedirectToAction("Index");
                 }

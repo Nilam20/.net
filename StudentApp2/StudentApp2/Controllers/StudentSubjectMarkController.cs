@@ -31,12 +31,21 @@ namespace StudentApp2.Controllers
             {
                 List<StudentSubject> listss = context.StudentSubjects1.Where(e => e.SubjectId == id).ToList();
                 List<StudentSubjectMark> listmark = context.StudentSubjectMarks.Where(e => e.SubjectId == id).ToList();
+                var m=0;
                 for (int i = 0; i < listss.Count; i++)
                 {
+                    
 
                     var liststudent = context.StudentDatas.FirstOrDefault(e => e.StudentId == listss[i].StudentId);
                     {
-
+                        if (listmark.Count > 0)
+                        {
+                            m = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark;
+                        }
+                        else
+                        {
+                            //listmark[0].Mark = 0;
+                        }
                         var cm = new CustomModel()
                         {
                             SubjectId = id,
@@ -44,6 +53,7 @@ namespace StudentApp2.Controllers
                             Name = liststudent.Name,
                             Standard = liststudent.Standard,
                             RollNo = liststudent.RollNo,
+                            Mark = m
                             //if(listmark.Count!=0)
                             //      {
                             // Mark = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark
@@ -73,8 +83,11 @@ namespace StudentApp2.Controllers
         {
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
             List<CustomModel> lst = cmm;
+
+          
             for (int i = 0; i < lst.Count; i++)
             {
+              
                 if (lst != null)
                 {
                     StudentSubjectMark obj = new StudentSubjectMark()
@@ -85,9 +98,12 @@ namespace StudentApp2.Controllers
                         Mark = cmm[i].Mark
 
                     };
+                    List<StudentSubjectMark> ssmd = context.StudentSubjectMarks.Where(e => e.SubjectId ==cmm[i].SubjectId).ToList();
+                    context.StudentSubjectMarks.RemoveRange(ssmd);
 
                     context.StudentSubjectMarks.UpdateRange(obj);
                     context.SaveChanges();
+                 
                     int TotalMark = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId).Sum(e => e.Mark);
                     List<int> StudSubjectID = new List<int>();
                     List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == cmm[i].StudentId).ToList();
@@ -116,7 +132,7 @@ namespace StudentApp2.Controllers
                             Percentage = per
 
                         };
-                        context.StudentDatas.Update(ff);
+                        context.StudentDatas.Update(nn);
 
 
                         context.SaveChanges();
@@ -128,30 +144,14 @@ namespace StudentApp2.Controllers
 
 
             }
-
-
-
-
-
-            // return RedirectToAction("Index");
-            return View();
+                    return View();
 
 
         }
 
 
 
-        //int sum = 0;
-        //sum = cmm[i].Mark * 100 / 300;
-        //double per = sum;
-        //var sdata = context.StudentDatas.FirstOrDefault(e => e.StudentId == cmm[i].StudentId);
-        //{
-        //    StudentData std = new StudentData()
-        //    {
-
-        //        Percentage = per
-        //    };
-        //    context.StudentDatas.Update(std);
+      
 
     }
 
