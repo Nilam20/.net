@@ -14,5 +14,10 @@ namespace StudentApp2.Models
         public int  RollNo { get; set; }
         public int  Standard { get; set; }
         public int Mark { get; set; }
+        public int MaxMark { get; set; }
+
+
+     
+
     }
 }

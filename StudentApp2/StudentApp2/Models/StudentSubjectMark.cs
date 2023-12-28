@@ -20,6 +20,7 @@ namespace StudentApp2.Models
         [NotMapped]
         public List<StudentData> listStd { get; set; } = new List<StudentData>();
 
+
         [NotMapped]
         public List<StudentSubject> liststdsub { get; set; } = new List<StudentSubject>();
         [NotMapped]

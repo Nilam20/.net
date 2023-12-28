@@ -27,42 +27,40 @@ namespace StudentApp2.Controllers
             //StudentSubjectMark ssm = new StudentSubjectMark();
             List<CustomModel> cmm = new List<CustomModel>();
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
+          //  var ls = context.SubjectDetails.Where(e => e.SubjectId == id).Max(e => e.MaxMark);
+
             if (id > 0)
             {
                 List<StudentSubject> listss = context.StudentSubjects1.Where(e => e.SubjectId == id).ToList();
                 List<StudentSubjectMark> listmark = context.StudentSubjectMarks.Where(e => e.SubjectId == id).ToList();
-                var m=0;
+                // var m=0;
                 for (int i = 0; i < listss.Count; i++)
                 {
-                    
 
                     var liststudent = context.StudentDatas.FirstOrDefault(e => e.StudentId == listss[i].StudentId);
                     {
-                        if (listmark.Count > 0)
+
+                        // var d = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark;
+
+                        if (liststudent != null)
                         {
-                            m = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark;
+                            int Mark = 0;
+                            if (listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId) != null)
+                            {
+                                Mark = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark;
+                            }
+                            var cm = new CustomModel()
+                            {
+                                SubjectId = id,
+                                StudentId = liststudent.StudentId,
+                                Name = liststudent.Name,
+                                Standard = liststudent.Standard,
+                                RollNo = liststudent.RollNo,
+                                Mark = Mark
+                            };
+                            cmm.Add(cm);
                         }
-                        else
-                        {
-                            //listmark[0].Mark = 0;
-                        }
-                        var cm = new CustomModel()
-                        {
-                            SubjectId = id,
-                            StudentId = liststudent.StudentId,
-                            Name = liststudent.Name,
-                            Standard = liststudent.Standard,
-                            RollNo = liststudent.RollNo,
-                            Mark = m
-                            //if(listmark.Count!=0)
-                            //      {
-                            // Mark = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark
 
-                            // }
-
-
-                        };
-                        cmm.Add(cm);
                     }
 
                 }
@@ -83,11 +81,15 @@ namespace StudentApp2.Controllers
         {
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
             List<CustomModel> lst = cmm;
+            
 
-          
             for (int i = 0; i < lst.Count; i++)
             {
-              
+                
+
+                List<StudentSubjectMark> ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId && e.SubjectId == cmm[i].SubjectId).ToList();
+                context.StudentSubjectMarks.RemoveRange(ssmd);
+                int v = context.SubjectDetails.Where(e => e.SubjectId == cmm[i].SubjectId).FirstOrDefault().MaxMark;
                 if (lst != null)
                 {
                     StudentSubjectMark obj = new StudentSubjectMark()
@@ -98,12 +100,19 @@ namespace StudentApp2.Controllers
                         Mark = cmm[i].Mark
 
                     };
-                    List<StudentSubjectMark> ssmd = context.StudentSubjectMarks.Where(e => e.SubjectId ==cmm[i].SubjectId).ToList();
-                    context.StudentSubjectMarks.RemoveRange(ssmd);
-
+                   
+                
+                    if (cmm[i].Mark > v)
+                    {
+                        TempData["msg"] = "please check";
+                        return View(cmm);
+                    }
+                
                     context.StudentSubjectMarks.UpdateRange(obj);
                     context.SaveChanges();
-                 
+                    //List<StudentSubjectMark> ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId && e.SubjectId==cmm[i].SubjectId).ToList();
+                    //context.StudentSubjectMarks.RemoveRange(ssmd);
+
                     int TotalMark = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId).Sum(e => e.Mark);
                     List<int> StudSubjectID = new List<int>();
                     List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == cmm[i].StudentId).ToList();
@@ -114,14 +123,14 @@ namespace StudentApp2.Controllers
                             StudSubjectID.Add(li[j].SubjectId);
                         }
 
-                       
+
                     }
                     int TotalMaxMark = context.SubjectDetails.Where(e => StudSubjectID.Contains(e.SubjectId)).Sum(e => e.MaxMark);
                     double per = TotalMark * 100 / TotalMaxMark;
                     var ff = context.StudentDatas.FirstOrDefault(x => x.StudentId == cmm[i].StudentId);
                     {
                         context.StudentDatas.Remove(ff);
-                        var nn = new StudentData()
+                        StudentData nn = new StudentData()
                         {
                             StudentId = ff.StudentId,
                             Name = ff.Name,
@@ -144,14 +153,14 @@ namespace StudentApp2.Controllers
 
 
             }
-                    return View();
+            return View();
 
 
         }
 
 
 
-      
+
 
     }
 

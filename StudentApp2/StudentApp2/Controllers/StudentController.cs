@@ -72,6 +72,9 @@ namespace StudentApp2.Controllers
                     };
                     context.StudentDatas.Add(obj);
                     context.SaveChanges();
+                    //added 
+                    List<StudentSubject> list = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
+                    context.StudentSubjects1.RemoveRange(list);
 
                     if (fc["SubjectSelection"].ToString() != "")
                     {
