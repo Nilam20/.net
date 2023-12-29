@@ -278,6 +278,8 @@ C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Ra
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubjectMark\AddEdit.cshtml.g.cs
+C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubjectMark\Index.cshtml.g.cs
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubMark\AddEdit.cshtml.g.cs
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubMark\Index.cshtml.g.cs
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\Student\AddEdit.cshtml.g.cs
@@ -293,5 +295,3 @@ C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\re
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\StudentApp2.pdb
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\StudentApp2.genruntimeconfig.cache
 C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\StudentApp2.csproj.AssemblyReference.cache
-C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubjectMark\AddEdit.cshtml.g.cs
-C:\Users\WIN0033\source\repos\Dotnet\StudentApp2\StudentApp2\obj\Debug\net5.0\Razor\Views\StudentSubjectMark\Index.cshtml.g.cs

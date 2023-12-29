@@ -114,9 +114,22 @@ namespace StudentApp2.Controllers
 
                     List<StudentSubject> list = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
                     context.StudentSubjects1.RemoveRange(list);
+                    context.SaveChanges();
+                   
+
+
+                    // var ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == Stdd.StudentId).FirstOrDefault();
+                    //if (ssmd != null) { context.StudentSubjectMarks.RemoveRange(ssmd); }
+
+
+                    //context.StudentSubjectMarks.RemoveRange(ssmd);
+                    //List<StudentSubjectMark> listssm = context.StudentSubjectMarks.Where(e => e.StudentId == Stdd.StudentId).ToList();
+                    //context.StudentSubjectMarks.RemoveRange(listssm);
 
                     if (fc["SubjectSelection"].ToString() != "")
                     {
+                       // List<int> listn1 = new List<int>();
+                        //var listn1 = new List<>;
                         var id = Stdd.StudentId;
                         foreach (var item in fc["SubjectSelection"].ToString().Split(','))
                         {
@@ -125,12 +138,33 @@ namespace StudentApp2.Controllers
                                 StudentId = id,
                                 SubjectId = Convert.ToInt32(item)
                             };
+                            
+                            //var listn = context.StudentSubjectMarks.Where(e => e.StudentId == sdata.StudentId && e.SubjectId == sdata.SubjectId);
+                            //context.StudentSubjectMarks.RemoveRange(listn);
+
                             context.StudentSubjects1.UpdateRange(sdata);
                             context.SaveChanges();
+
+
+                         
+                           var listn = context.StudentSubjectMarks.Where(e => e.StudentId == sdata.StudentId && e.SubjectId == sdata.SubjectId).ToList();
+                           //for(int j=0;j<listn.Count;j++)
+                           // {
+                           //     listn1.Add(listn);
+                           // }
+
+                            var MS = context.StudentSubjectMarks.Except(listn).ToList();
+                            //if (listn != null)
+                            //{
+                            //    context.StudentSubjectMarks.RemoveRange(listn);
+                            //    context.SaveChanges();
+                            //}
+
+
                         }
 
                     }
-
+                  
                     TempData["Msg"] = "Data Updated";
                     return RedirectToAction("Index");
                 }

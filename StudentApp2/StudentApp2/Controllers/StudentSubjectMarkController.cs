@@ -27,16 +27,17 @@ namespace StudentApp2.Controllers
             //StudentSubjectMark ssm = new StudentSubjectMark();
             List<CustomModel> cmm = new List<CustomModel>();
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
-          //  var ls = context.SubjectDetails.Where(e => e.SubjectId == id).Max(e => e.MaxMark);
+            //  var ls = context.SubjectDetails.Where(e => e.SubjectId == id).Max(e => e.MaxMark);
 
             if (id > 0)
             {
                 List<StudentSubject> listss = context.StudentSubjects1.Where(e => e.SubjectId == id).ToList();
                 List<StudentSubjectMark> listmark = context.StudentSubjectMarks.Where(e => e.SubjectId == id).ToList();
+               
                 // var m=0;
                 for (int i = 0; i < listss.Count; i++)
                 {
-
+                  
                     var liststudent = context.StudentDatas.FirstOrDefault(e => e.StudentId == listss[i].StudentId);
                     {
 
@@ -81,14 +82,15 @@ namespace StudentApp2.Controllers
         {
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
             List<CustomModel> lst = cmm;
-            
+
 
             for (int i = 0; i < lst.Count; i++)
             {
-                
+                 List < StudentSubjectMark > ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId && e.SubjectId == cmm[i].SubjectId).ToList();
+                 context.StudentSubjectMarks.RemoveRange(ssmd);
 
-                List<StudentSubjectMark> ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId && e.SubjectId == cmm[i].SubjectId).ToList();
-                context.StudentSubjectMarks.RemoveRange(ssmd);
+               
+
                 int v = context.SubjectDetails.Where(e => e.SubjectId == cmm[i].SubjectId).FirstOrDefault().MaxMark;
                 if (lst != null)
                 {
@@ -100,18 +102,28 @@ namespace StudentApp2.Controllers
                         Mark = cmm[i].Mark
 
                     };
+
+                    //for (int j = 0; j < cmm[i].Mark; j++)
+                    //{
+                        if (cmm[i].Mark > v)
+                        {
+                            TempData["msg"] = "please check";
+                            return View(cmm);
+                        }
+                    //}
+                  
                    
-                
-                    if (cmm[i].Mark > v)
-                    {
-                        TempData["msg"] = "please check";
-                        return View(cmm);
-                    }
-                
+
                     context.StudentSubjectMarks.UpdateRange(obj);
                     context.SaveChanges();
-                    //List<StudentSubjectMark> ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId && e.SubjectId==cmm[i].SubjectId).ToList();
+                    //var ssmd = context.StudentSubjectMarks.FirstOrDefault(e => e.StudentId == cmm[i].StudentId && e.SubjectId == cmm[i].SubjectId);
+                    
                     //context.StudentSubjectMarks.RemoveRange(ssmd);
+                 
+                  //  var ssmd = context.StudentSubjectMarks.Any(e => e.StudentId == cmm[i].StudentId && e.SubjectId == cmm[i].SubjectId);
+                  
+                  
+                    
 
                     int TotalMark = context.StudentSubjectMarks.Where(e => e.StudentId == cmm[i].StudentId).Sum(e => e.Mark);
                     List<int> StudSubjectID = new List<int>();
@@ -127,6 +139,8 @@ namespace StudentApp2.Controllers
                     }
                     int TotalMaxMark = context.SubjectDetails.Where(e => StudSubjectID.Contains(e.SubjectId)).Sum(e => e.MaxMark);
                     double per = TotalMark * 100 / TotalMaxMark;
+
+
                     var ff = context.StudentDatas.FirstOrDefault(x => x.StudentId == cmm[i].StudentId);
                     {
                         context.StudentDatas.Remove(ff);
@@ -163,8 +177,6 @@ namespace StudentApp2.Controllers
 
 
     }
-
-
-
 }
+
 
