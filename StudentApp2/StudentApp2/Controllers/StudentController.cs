@@ -25,9 +25,12 @@ namespace StudentApp2.Controllers
         [HttpGet]
         public IActionResult AddEdit(int id)
         {
+            
             StudentData obj = new StudentData();
             var result = context.StudentDatas.FirstOrDefault(e => e.StudentId == id);
             ViewBag.SubjectDetails = context.SubjectDetails.ToList();
+         
+          
             if (id>0)
             {
                 obj = new StudentData()
@@ -42,7 +45,7 @@ namespace StudentApp2.Controllers
 
                 };
                 ViewBag.StudentSubjectlist = context.StudentSubjects1.Where(e => e.StudentId == obj.StudentId).ToList();
-
+              
             }
 
             return View(obj);
@@ -52,7 +55,7 @@ namespace StudentApp2.Controllers
         public IActionResult AddEdit(StudentData Stdd,IFormCollection fc)
         {
             ViewBag.SubjectDetails = context.SubjectDetails.ToList();
-
+           // double per;
             // ViewBag.StudentSubjectlist = context.SubjectDetails.Where(e => e.StudentId == Stdd.StudentId).ToList();
             ViewBag.StudentSubjectlist = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
             if (ModelState.IsValid)
@@ -98,8 +101,11 @@ namespace StudentApp2.Controllers
                 }
                 else
                 {
-                 var obj = new StudentData()
+                   
+
+                    var obj = new StudentData()
                     {
+
                         StudentId = Stdd.StudentId,
                         Name = Stdd.Name,
                         Standard = Stdd.Standard,
@@ -107,17 +113,18 @@ namespace StudentApp2.Controllers
                         RollNo = Stdd.RollNo,
                         GRNO = Stdd.GRNO,
                         Percentage = Stdd.Percentage
+                       // Percentage = per
 
                     };
-                    context.StudentDatas.Update(obj);
-                    context.SaveChanges();
+                  
+                    //context.StudentDatas.Update(obj);
+                    //context.SaveChanges();
 
                     List<StudentSubject> list = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
                     context.StudentSubjects1.RemoveRange(list);
                     context.SaveChanges();
 
-                    //var del = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).FirstOrDefault();
-                    //context.StudentSubjects1.Remove(del);
+
 
 
 
@@ -125,9 +132,8 @@ namespace StudentApp2.Controllers
                     {
                         List<int> StudSubjectID = new List<int>();
                         List<int> StudID = new List<int>();
-                        // List<int> listn1 = new List<int>();
-                        //var listn1 = new List<>;
-                        var listn1 = new List<dynamic>();
+                    
+            
                         var id = Stdd.StudentId;
                         foreach (var item in fc["SubjectSelection"].ToString().Split(','))
                         {
@@ -136,16 +142,13 @@ namespace StudentApp2.Controllers
                                 StudentId = id,
                                 SubjectId = Convert.ToInt32(item)
                             };
-                            
-                            //var listn = context.StudentSubjectMarks.Where(e => e.StudentId == sdata.StudentId && e.SubjectId == sdata.SubjectId);
-                            //context.StudentSubjectMarks.RemoveRange(listn);
 
                             context.StudentSubjects1.UpdateRange(sdata);
                             context.SaveChanges();
 
 
 
-                            List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == sdata.StudentId &&e.SubjectId==sdata.SubjectId).ToList();
+                            List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == sdata.StudentId && e.SubjectId==sdata.SubjectId).ToList();
                             if (li.Count != 0)
                             {
                                 for (int j = 0; j < li.Count; j++)
@@ -167,9 +170,24 @@ namespace StudentApp2.Controllers
                             context.SaveChanges();
                         }
 
+                        int TotalMark = context.StudentSubjectMarks.Where(e => e.StudentId == Stdd.StudentId).Sum(e => e.Mark);
+                        List<int> StudSubjectID1 = new List<int>();
+                        List<StudentSubject> lin = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
+                        if (lin.Count != 0)
+                        {
+                            for (int j = 0; j < lin.Count; j++)
+                            {
+                                StudSubjectID1.Add(lin[j].SubjectId);
+                            }
 
+
+                        }
+                         int TotalMaxMark = context.SubjectDetails.Where(e => StudSubjectID1.Contains(e.SubjectId)).Sum(e => e.MaxMark);
+                         double per = TotalMark * 100 / TotalMaxMark;
+                         obj.Percentage = per;
                     }
-                  
+                    context.StudentDatas.Update(obj);
+                    context.SaveChanges();
                     TempData["Msg"] = "Data Updated";
                     return RedirectToAction("Index");
                 }
