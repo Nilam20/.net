@@ -115,21 +115,19 @@ namespace StudentApp2.Controllers
                     List<StudentSubject> list = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).ToList();
                     context.StudentSubjects1.RemoveRange(list);
                     context.SaveChanges();
-                   
+
+                    //var del = context.StudentSubjects1.Where(e => e.StudentId == Stdd.StudentId).FirstOrDefault();
+                    //context.StudentSubjects1.Remove(del);
 
 
-                    // var ssmd = context.StudentSubjectMarks.Where(e => e.StudentId == Stdd.StudentId).FirstOrDefault();
-                    //if (ssmd != null) { context.StudentSubjectMarks.RemoveRange(ssmd); }
-
-
-                    //context.StudentSubjectMarks.RemoveRange(ssmd);
-                    //List<StudentSubjectMark> listssm = context.StudentSubjectMarks.Where(e => e.StudentId == Stdd.StudentId).ToList();
-                    //context.StudentSubjectMarks.RemoveRange(listssm);
 
                     if (fc["SubjectSelection"].ToString() != "")
                     {
-                       // List<int> listn1 = new List<int>();
+                        List<int> StudSubjectID = new List<int>();
+                        List<int> StudID = new List<int>();
+                        // List<int> listn1 = new List<int>();
                         //var listn1 = new List<>;
+                        var listn1 = new List<dynamic>();
                         var id = Stdd.StudentId;
                         foreach (var item in fc["SubjectSelection"].ToString().Split(','))
                         {
@@ -146,22 +144,29 @@ namespace StudentApp2.Controllers
                             context.SaveChanges();
 
 
-                         
-                           var listn = context.StudentSubjectMarks.Where(e => e.StudentId == sdata.StudentId && e.SubjectId == sdata.SubjectId).ToList();
-                           //for(int j=0;j<listn.Count;j++)
-                           // {
-                           //     listn1.Add(listn);
-                           // }
 
-                            var MS = context.StudentSubjectMarks.Except(listn).ToList();
-                            //if (listn != null)
-                            //{
-                            //    context.StudentSubjectMarks.RemoveRange(listn);
-                            //    context.SaveChanges();
-                            //}
+                            List<StudentSubject> li = context.StudentSubjects1.Where(e => e.StudentId == sdata.StudentId &&e.SubjectId==sdata.SubjectId).ToList();
+                            if (li.Count != 0)
+                            {
+                                for (int j = 0; j < li.Count; j++)
+                                {
+                                    StudSubjectID.Add(li[j].SubjectId);
+                                    StudID.Add(li[j].StudentId);
+                                }
 
+
+                            }
+                           
 
                         }
+                        // var dd = context.StudentSubjectMarks.FirstOrDefault(e => !StudSubjectID.Contains(e.SubjectId));
+                        List<StudentSubjectMark> dd = context.StudentSubjectMarks.Where(e => !StudSubjectID.Contains(e.SubjectId) && StudID.Contains(e.StudentId)).ToList();
+                        if (dd != null)
+                        {
+                            context.StudentSubjectMarks.RemoveRange(dd);
+                            context.SaveChanges();
+                        }
+
 
                     }
                   

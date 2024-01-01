@@ -27,8 +27,8 @@ namespace StudentApp2.Controllers
             //StudentSubjectMark ssm = new StudentSubjectMark();
             List<CustomModel> cmm = new List<CustomModel>();
             ViewBag.SubjectDetail = context.SubjectDetails.ToList();
-            //  var ls = context.SubjectDetails.Where(e => e.SubjectId == id).Max(e => e.MaxMark);
-
+            // var ls = context.SubjectDetails.Where(e => e.SubjectId == id).Max(e => e.MaxMark);
+           
             if (id > 0)
             {
                 List<StudentSubject> listss = context.StudentSubjects1.Where(e => e.SubjectId == id).ToList();
@@ -40,7 +40,7 @@ namespace StudentApp2.Controllers
                   
                     var liststudent = context.StudentDatas.FirstOrDefault(e => e.StudentId == listss[i].StudentId);
                     {
-
+                        var ls = context.SubjectDetails.FirstOrDefault(e => e.SubjectId == id).MaxMark;
                         // var d = listmark.FirstOrDefault(e => e.StudentId == liststudent.StudentId).Mark;
 
                         if (liststudent != null)
@@ -57,7 +57,10 @@ namespace StudentApp2.Controllers
                                 Name = liststudent.Name,
                                 Standard = liststudent.Standard,
                                 RollNo = liststudent.RollNo,
-                                Mark = Mark
+                                Mark = Mark,
+                                MaxMark=ls
+                                
+                                
                             };
                             cmm.Add(cm);
                         }
@@ -99,18 +102,17 @@ namespace StudentApp2.Controllers
                         // SubjectId=cmm[i].SubjectId
                         SubjectId = cmm[i].SubjectId,
                         StudentId = cmm[i].StudentId,
-                        Mark = cmm[i].Mark
-
+                        Mark = cmm[i].Mark,
+                        
                     };
 
-                    //for (int j = 0; j < cmm[i].Mark; j++)
-                    //{
+                   
                         if (cmm[i].Mark > v)
                         {
                             TempData["msg"] = "please check";
                             return View(cmm);
                         }
-                    //}
+                  
                   
                    
 
